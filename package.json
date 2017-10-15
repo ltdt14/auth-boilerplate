@@ -1,0 +1,59 @@
+{
+  "name": "auth-boilerplate",
+  "version": "0.0.1",
+  "description": "auth-example",
+  "engines": {
+    "npm": ">=3",
+    "node": ">=8"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha",
+    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test/test.js -- -R spec",
+    "production": "grunt eslint && npm test && grunt jsdoc2md && grunt markdown_toc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ltodt@github.com/ltodt/node-boilerplate.git"
+  },
+  "author": "Lasse Todt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ltodt/node-boilerplate/issues"
+  },
+  "homepage": "https://github.com/ltodt/node-boilerplate#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.12.1",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-preset-flow": "^6.23.0",
+    "chai": "^4.1.1",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^11.3.2",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^7.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-eslint": "^20.0.0",
+    "grunt-jsdoc-to-markdown": "^3.0.0",
+    "grunt-markdown-toc": "^0.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.0",
+  }
+}
