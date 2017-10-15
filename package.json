@@ -54,6 +54,6 @@
     "grunt-jsdoc-to-markdown": "^3.0.0",
     "grunt-markdown-toc": "^0.0.2",
     "istanbul": "^0.4.5",
-    "mocha": "^3.5.0",
+    "mocha": "^3.5.0"
   }
 }

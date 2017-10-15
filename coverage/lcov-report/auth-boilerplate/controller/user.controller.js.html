@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for auth-boilerplate/models/User.js</title>
+    <title>Code coverage report for auth-boilerplate/controller/user.controller.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">all files</a> / <a href="index.html">auth-boilerplate/models/</a> User.js
+      <a href="../../index.html">all files</a> / <a href="index.html">auth-boilerplate/controller/</a> user.controller.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">88.89% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>10/10</span>
+        <span class='fraction'>8/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>3/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/10</span>
+        <span class='fraction'>6/6</span>
       </div>
     </div>
   </div>
@@ -80,19 +80,9 @@
 35
 36
 37
-38</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+38
+39
+40</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -102,9 +92,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -114,47 +101,66 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const User = require('../models/User');
 &nbsp;
-const Item = new mongoose.Schema({
-    name: { type: String, unique: true }
-});
 &nbsp;
-const CodeList = new mongoose.Schema({
-    name: { type: String, unique: true },
-    items: [Item]
-});
-&nbsp;
-const userSchema = mongoose.Schema({
-    email: String,
-    password: String,
-    codelists: [CodeList]
-});
-&nbsp;
-/**
- * Generates the hash
- * @param password
- * @returns {string} - Hash of the password
- */
-userSchema.methods.generateHash = function generateHash(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+/*
+exports.findByEmail = function findByEmail(email, callback){
+    User.findOne({ email }, (err, codeRes) =&gt; callback(err, codeRes));
 };
 &nbsp;
-/**
- * Checks if password is correct
- * @param password
- * @returns {boolean} - Result of comparison
- */
-userSchema.methods.validPassword = function validPassword(password) {
-    return bcrypt.compareSync(password, this.password);
+exports.remove = function remove(user, callback){
+    if (typeof user === 'object' &amp;&amp; code !== null) {
+        user.remove(err =&gt; callback(err, null));
+    } else {
+        callback(new TypeError('User was not an User object'), null);
+    }
+};
+*/
+&nbsp;
+exports.removeByEmail = function removeByEmail(email, callback){
+    User.findOne({ email }, (err, user) =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(err) <span class="cstat-no" title="statement not covered" >callback(err, user);</span>
+        if(user) user.remove(err =&gt; callback(err, null));
+        else callback(new Error('User not found'));
+    });
 };
 &nbsp;
-module.exports = mongoose.model('User', userSchema);
-&nbsp;</pre></td></tr>
+/*
+exports.removeListItemById = function removeListItem(user, listid, itemid, callback){
+    //if(typeof user !== 'obj') callback(new Error('User is not an object'));
+    if(typeof listid !== 'string' || listid === '') callback(new Error('Listid has wrong type or is empty'));
+    if(typeof itemid !== 'string' || itemid === '') callback(new Error('Itemid has wrong type or is empty'));
+    const list = user.codelists.id(listid);
+    if(!list || list === null) callback(new Error('List not found'));
+    if(list.items.filter(item =&gt; {return item['_id'] === itemid}).length === 0) callback(new Error('Listitem not found'));
+    list.items.id(itemid).remove();
+    user.save(err =&gt; {
+        if(err) callback(err);
+        callback(null);
+    })
+};
+*/</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->

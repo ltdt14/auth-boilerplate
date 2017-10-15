@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
 const Item = new mongoose.Schema({
-    name: String
+    name: { type: String, unique: true }
 });
 
 const CodeList = new mongoose.Schema({
-    name: String,
+    name: { type: String, unique: true },
     items: [Item]
 });
 

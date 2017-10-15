@@ -10,6 +10,7 @@ const passport = require('passport');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const userController = require('./controller/user.controller');
+
 const app = express();
 
 // load env vars if .env exists
@@ -53,33 +54,30 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get(
-    '/profile',
-    passport.authenticate('jwt', { session: false }),
-    (req, res) => {
-        res.send({ msg: 'yeah' });
-    }
-);
-
 app.post(
     '/createlist',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         if (!req.body.name || req.body.name === '') {
             res.send({ success: false, msg: 'No name was provided' });
+        } else if (
+            req.user.codelists.filter(list => {
+                return list.name === req.body.name;
+            }).length > 0
+        ) {
+            res.send({ success: false, msg: 'List name must be unique' });
         } else {
-            console.log(req.user);
             req.user.codelists.push({ name: req.body.name });
             req.user.save(err => {
-                if (err) res.send({ success: false, msg: err.errmsg });
+                if (err) res.send({ success: false, msg: err.message });
                 else res.send({ success: true });
             });
         }
     }
 );
 
-app.post(
-    '/getlists',
+app.get(
+    '/lists',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
         res.send(req.user.codelists);
@@ -90,17 +88,29 @@ app.post(
     '/createlistitem',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        if (
-            !req.body.listid ||
-            req.body.list === '' ||
-            !req.body.itemname ||
+        if (!(typeof req.body.listid === 'string') || req.body.listid === '')
+            res.send({
+                success: false,
+                msg: 'No correct list id was provided'
+            });
+        else if (
+            !(typeof req.body.itemname === 'string') ||
             req.body.itemname === ''
-        ) {
+        )
             res.send({ success: false, msg: 'No name was provided' });
-        } else {
+        else {
             const list = req.user.codelists.id(req.body.listid);
             if (!list || list === null) {
                 res.send({ success: false, msg: 'List was not found' });
+            } else if (
+                list.items.filter(item => {
+                    return item.name === req.body.itemname;
+                }).length > 0
+            ) {
+                res.send({
+                    success: false,
+                    msg: 'Item name must be unique'
+                });
             } else {
                 list.items.push({ name: req.body.itemname });
                 req.user.save(err => {
@@ -111,11 +121,6 @@ app.post(
         }
     }
 );
-
-app.get('/logout', (req, res) => {
-    req.logout();
-    res.end('logged out');
-});
 
 app.post('/signup', (req, res, next) => {
     passport.authenticate('local-signup', (err, user, info) => {
@@ -141,11 +146,80 @@ app.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-//only for testing purposes
+app.post(
+    '/deletelistitem',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        /*
+        userController.removeListItemById(
+            req.user,
+            req.body.listid,
+            req.body.itemid,
+            err => {
+                if (err) res.send({ success: false, msg: err.message });
+                else res.send({ success: true });
+            }
+        );
+        */
+        if (typeof req.body.listid !== 'string' || req.body.listid === '')
+            res.send({
+                success: false,
+                msg: 'Listid has wrong type or is empty'
+            });
+        else if (typeof req.body.itemid !== 'string' || req.body.itemid === '')
+            res.send({
+                success: false,
+                msg: 'Itemid has wrong type or is empty'
+            });
+        else {
+            const list = req.user.codelists.id(req.body.listid);
+            if (!list || list === null)
+                res.send({ success: false, msg: 'List not found' });
+            else {
+                const filtered = list.items.id(req.body.itemid);
+                if (filtered === null)
+                    res.send({ success: false, msg: 'Listitem not found' });
+                else {
+                    filtered.remove();
+                    req.user.save(err => {
+                        if (err) res.send({ success: false, msg: err.message });
+                        else res.send({ success: true });
+                    });
+                }
+            }
+        }
+    }
+);
+
+app.post(
+    '/deletelist',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        if (typeof req.body.listid !== 'string' || req.body.listid === '')
+            res.send({
+                success: false,
+                msg: 'Listid has wrong type or is empty'
+            });
+        else {
+            const list = req.user.codelists.id(req.body.listid);
+            if (!list || list === null)
+                res.send({ success: false, msg: 'List not found' });
+            else {
+                list.remove();
+                req.user.save(err => {
+                    if (err) res.send({ success: false, msg: err.message });
+                    else res.send({ success: true });
+                });
+            }
+        }
+    }
+);
+
+// only for testing purposes
 app.get('/removetestuser', (req, res) =>
-    userController.removeByEmail('test@test.de', (err, removeRes) => {
-        if(err) res.send({success: false, msg: err.message});
-        else res.send({success: true});
+    userController.removeByEmail('test@test.de', err => {
+        if (err) res.send({ success: false, msg: err.message });
+        else res.send({ success: true });
     })
 );
 
