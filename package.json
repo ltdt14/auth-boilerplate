@@ -10,7 +10,8 @@
   "scripts": {
     "test": "node_modules/.bin/mocha",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test/test.js -- -R spec",
-    "production": "grunt eslint && npm test && grunt jsdoc2md && grunt markdown_toc"
+    "production": "grunt eslint && npm test && grunt jsdoc2md && grunt markdown_toc",
+    "start-production": "sudo pm2 start pm2.json"
   },
   "repository": {
     "type": "git",
