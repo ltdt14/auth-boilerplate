@@ -8,21 +8,23 @@
   },
   "main": "dist/index.js",
   "scripts": {
+    "apidoc": "node_modules/.bin/apidoc -i routes -o apidoc/",
+    "apidocmd": "npm run apidoc && node_modules/.bin/apidoc-markdown -p apidoc  -o docs/API.md",
     "test": "node_modules/.bin/mocha",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test/test.js -- -R spec",
-    "production": "grunt eslint && npm test && grunt jsdoc2md && grunt markdown_toc",
+    "production": "grunt eslint && npm test && npm run coverage && npm run apidocmd && grunt markdown_toc",
     "start-production": "sudo pm2 start pm2.json"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://ltodt@github.com/ltodt/node-boilerplate.git"
+    "url": "git+https://ltodt@github.com/ltodt/auth-boilerplate.git"
   },
   "author": "Lasse Todt",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ltodt/node-boilerplate/issues"
+    "url": "https://github.com/ltodt/auth-boilerplate/issues"
   },
-  "homepage": "https://github.com/ltodt/node-boilerplate#readme",
+  "homepage": "https://github.com/ltodt/auth-boilerplate#readme",
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
@@ -39,6 +41,8 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
+    "apidoc-markdown": "^0.2.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-preset-flow": "^6.23.0",

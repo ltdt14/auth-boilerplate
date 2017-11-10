@@ -341,7 +341,7 @@ describe('api', () => {
         });
     });
 
-    describe('update list', () => {
+    describe('update list (only for testing purposes)', () => {
         it('should get the lists', done => {
             chai
                 .request(server)
