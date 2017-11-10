@@ -1,26 +1,29 @@
 # Auth Boilerplate
 
-This is a boilerplate for a API server with authentication.
-It provides a Signup and Login Endpoint and requires an authtoken
-to do crud actions on lists with listitems of a user.
+This is a boilerplate for a NodeJS/Express API server with authentication.
+It provides a signup and login endpoint and requires an authtoken
+to do crud actions on lists with list items of a user.
 A webapp which directly uses this boilerplate is available here:
 
-[Auth Boilerplate Webapp](https://authfront.lassetodt.de)
+[Auth Boilerplate Webapp](https://authexamplefront.lassetodt.de)
 
 **Credentials for test accout**
 - Email: user@user.de
 - Password: password
 
+## Table of contents
+
 <!-- toc -->
 
+- [Featues](#featues)
 - [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installing](#installing)
   * [Usage](#usage)
   * [API](#api)
 - [Development](#development)
-- [Versioning](#versioning)
 - [License](#license)
+- [Sources](#sources)
 
 <!-- tocstop -->
 

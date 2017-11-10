@@ -1,6 +1,6 @@
 # Development
 
-This readme shows how to develop on this module.
+This readme shows how to develop with this boilerplate.
 
 <!-- toc -->
 
@@ -22,7 +22,7 @@ Compile API doc
 npm run apidoc
 ```
 
-Compile API doc (HTML + Markdown
+Compile API doc (HTML + Markdown)
 
 ```
 npm run apidocmd
