@@ -16,10 +16,16 @@ Do everystep for production at once
 npm run production
 ```
 
-Compiling flow typed js
+Compile API doc
 
 ```
-grunt babel
+npm run apidoc
+```
+
+Compile API doc (HTML + Markdown
+
+```
+npm run apidocmd
 ```
 
 Compile API doc
@@ -28,10 +34,10 @@ Compile API doc
 grunt jsdoc2md
 ```
 
-Check flow types
+Run Coverage
 
 ```
-npm run flow
+npm run coverage
 ```
 
 Run Tests

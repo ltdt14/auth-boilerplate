@@ -17,8 +17,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         jsdoc2md: {
             oneOutputFile: {
-                src: 'dist/index.js',
-                dest: 'docs/API.md'
+                src: 'lib/index.js',
+                dest: 'docs/Components.md'
             }
         },
         markdown_toc: {

@@ -13,7 +13,8 @@
     "test": "node_modules/.bin/mocha",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha test/test.js -- -R spec",
     "production": "grunt eslint && npm test && npm run coverage && npm run apidocmd && grunt markdown_toc",
-    "start-production": "sudo pm2 start pm2.json"
+    "start-production-pm2": "sudo pm2 start pm2.json",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
