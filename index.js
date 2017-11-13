@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const morgan = require('morgan');
 const logger = require('./components/logger');
 const app = express();
 
@@ -22,8 +21,6 @@ const port =
 require('./lib/passport')(passport);
 
 // middleware
-// log every request to the console
-app.use(morgan(':method :url :status :response-time ms'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -31,7 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(async (req, res, next) => {
     try{
-        await logger.createLog(req.path, `${req.method} from ${req.ip} with ${req.headers['user-agent']} to ${req.url}`);
+        await logger.createLog(req.path, `${req.method} from ${req.headers['x-real-ip']} via origin ${req.headers['origin']} with ${req.headers['user-agent']} to ${req.url}`);
     } catch (loggerError) {}
     next();
 });

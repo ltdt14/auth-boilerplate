@@ -37,7 +37,7 @@ A webapp which directly uses this boilerplate is available here:
 - Code Coverage with Istanbul
 - Linting with ESLint via Airbnb Styleguide and PrettierJS
 - Documentation with JSDoc
-- Log request to Database
+- Log request to database
 
 ## Getting Started
 
