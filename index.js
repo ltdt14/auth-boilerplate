@@ -26,12 +26,14 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(async (req, res, next) => {
-    try{
-        await logger.createLog(req.path, `${req.method} from ${req.headers['x-real-ip']} via origin ${req.headers['origin']} with ${req.headers['user-agent']} to ${req.url}`);
-    } catch (loggerError) {}
-    next();
-});
+if(process.env.NODE_ENV === 'production'){
+    app.use(async (req, res, next) => {
+        try{
+            await logger.createLog(req.path, `${req.method} from ${req.headers['x-real-ip']} via origin ${req.headers['origin']} with ${req.headers['user-agent']} to ${req.url}`);
+        } catch (loggerError) {}
+        next();
+    });
+}
 
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/lists'));
