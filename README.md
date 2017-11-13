@@ -37,12 +37,13 @@ A webapp which directly uses this boilerplate is available here:
 - Code Coverage with Istanbul
 - Linting with ESLint via Airbnb Styleguide and PrettierJS
 - Documentation with JSDoc
+- Log request to Database
 
 ## Getting Started
 
 ### Prerequisites
 
-- This boilerplate requires a MongoDB connection. Provide the MongoDB URI in .env file.
+- This boilerplate requires two MongoDB connections. One for application specific data and one for the logging. Provide the MongoDB URIs in .env file.
 - This boilerplate requires some other variables provided in .env file. See .env.example for details
 
 ### Installing

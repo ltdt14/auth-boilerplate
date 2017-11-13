@@ -1,16 +1,16 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const mongoose = require('../lib/mongo_connection');
 
-const Item = new mongoose.Schema({
-    name: { type: String, unique: true }
+const Item = new mongoose.mongoconn.Schema({
+    name: { type: String }
 });
 
-const CodeList = new mongoose.Schema({
-    name: { type: String, unique: true },
+const CodeList = new mongoose.mongoconn.Schema({
+    name: { type: String },
     items: [Item]
 });
 
-const userSchema = mongoose.Schema({
+const userSchema = mongoose.mongoconn.Schema({
     email: String,
     password: String,
     codelists: [CodeList]
@@ -34,4 +34,4 @@ userSchema.methods.validPassword = function validPassword(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.mongoconn.model('User', userSchema);

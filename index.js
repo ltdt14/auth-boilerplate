@@ -1,28 +1,13 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const morgan = require('morgan');
-
+const logger = require('./components/logger');
 const app = express();
 
-// load env vars if .env exists
-if (fs.existsSync(path.join(__dirname, './.env'))) dotenv.load();
-
-if (process.env.MONGO_URI) mongoose.connect(process.env.MONGO_URI);
-else throw new Error('You need to load an .env file with MONGO_URI defined');
-
-// mongo connection etc
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-    console.info('Server is connected to Mongo DB');
-});
+//load .env vars
+require('./lib/load_env_vars');
 
 // check if needed env vars are available
 if (!process.env.TOKEN_SIGN_SECRET)
@@ -44,6 +29,12 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(async (req, res, next) => {
+    try{
+        await logger.createLog(req.path, `${req.method} from ${req.ip} with ${req.headers['user-agent']} to ${req.url}`);
+    } catch (loggerError) {}
+    next();
+});
 
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/lists'));
