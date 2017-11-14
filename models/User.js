@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt-nodejs');
-const mongoose = require('../lib/mongo_connection');
+const mongoose = require('../config/mongo_connection');
 
 const Item = new mongoose.mongoconn.Schema({
     name: { type: String }
@@ -11,8 +11,8 @@ const CodeList = new mongoose.mongoconn.Schema({
 });
 
 const userSchema = mongoose.mongoconn.Schema({
-    email: String,
-    password: String,
+    email: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
     codelists: [CodeList]
 });
 

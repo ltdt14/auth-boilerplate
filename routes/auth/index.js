@@ -31,8 +31,8 @@ const router = express.Router();
  */
 router.post('/signup', (req, res, next) => {
     passport.authenticate('local-signup', (err, user, info) => {
-        if (err) next(err);
-        if (!user) res.send({ success: false, msg: info.message });
+        if (err) res.send({ success: false, msg: err.message });
+        else if (!user) res.send({ success: false, msg: info.message });
         else res.send({ success: true });
     })(req, res, next);
 });
@@ -64,7 +64,7 @@ router.post('/signup', (req, res, next) => {
  */
 router.post('/login', (req, res, next) => {
     passport.authenticate('local-login', (err, user, info) => {
-        if (err) next(err);
+        if (err) res.send({ success: false, msg: err.message });
         if (!user) res.send({ success: false, msg: info.message });
         else {
             const token = jwt.sign(user._doc, process.env.TOKEN_SIGN_SECRET, {

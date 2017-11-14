@@ -6,7 +6,7 @@ const logger = require('./components/logger');
 const app = express();
 
 //load .env vars
-require('./lib/load_env_vars');
+require('./config/load_env_vars');
 
 // check if needed env vars are available
 if (!process.env.TOKEN_SIGN_SECRET)
@@ -18,7 +18,7 @@ const port =
         : process.env.DEV_PORT || 3000;
 
 // pass passport for configuration
-require('./lib/passport')(passport);
+require('./config/passport')(passport);
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: false }));
