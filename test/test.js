@@ -5,6 +5,9 @@ const expect = require('chai').expect;
 const chaiHttp = require('chai-http');
 const server = require('../index').app;
 
+//test specific user controller
+const testUserController = require('./controller/user.controller');
+
 chai.use(chaiHttp);
 
 describe('api', () => {
@@ -30,9 +33,7 @@ describe('api', () => {
                 .end((err, res) => {
                     console.log(res);
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal(
-                        'Email already exists.'
-                    );
+                    expect(res.body.msg).to.equal('Email already exists.');
                     done();
                 });
         });
@@ -283,7 +284,9 @@ describe('api', () => {
                 .send({ listid: '', itemname: 'myitem' })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('No correct list id was provided');
+                    expect(res.body.msg).to.equal(
+                        'No correct list id was provided'
+                    );
                     done();
                 });
         });
@@ -296,11 +299,12 @@ describe('api', () => {
                 .send({ listid: null, itemname: 'myitem' })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('No correct list id was provided');
+                    expect(res.body.msg).to.equal(
+                        'No correct list id was provided'
+                    );
                     done();
                 });
         });
-
 
         it('should not create a list item - list not existent', done => {
             chai
@@ -362,10 +366,13 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelistitem')
                 .set('Authorization', token)
-                .send({ listid: 'jlksjlfkjslf', itemid: lists[0].items[0]['_id']})
+                .send({
+                    listid: 'jlksjlfkjslf',
+                    itemid: lists[0].items[0]['_id']
+                })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('List not found')
+                    expect(res.body.msg).to.equal('List not found');
                     done();
                 });
         });
@@ -375,10 +382,12 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelistitem')
                 .set('Authorization', token)
-                .send({ listid: null, itemid: lists[0].items[0]['_id']})
+                .send({ listid: null, itemid: lists[0].items[0]['_id'] })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('Listid has wrong type or is empty')
+                    expect(res.body.msg).to.equal(
+                        'Listid has wrong type or is empty'
+                    );
                     done();
                 });
         });
@@ -388,7 +397,7 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelistitem')
                 .set('Authorization', token)
-                .send({ listid: lists[0]['_id'], itemid: 'kjkdfjksfjka'})
+                .send({ listid: lists[0]['_id'], itemid: 'kjkdfjksfjka' })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
                     expect(res.body.msg).to.equal('Listitem not found');
@@ -401,10 +410,12 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelistitem')
                 .set('Authorization', token)
-                .send({ listid: lists[0]['_id'], itemid: null})
+                .send({ listid: lists[0]['_id'], itemid: null })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('Itemid has wrong type or is empty');
+                    expect(res.body.msg).to.equal(
+                        'Itemid has wrong type or is empty'
+                    );
                     done();
                 });
         });
@@ -414,7 +425,10 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelistitem')
                 .set('Authorization', token)
-                .send({ listid: lists[0]['_id'], itemid: lists[0].items[0]['_id']})
+                .send({
+                    listid: lists[0]['_id'],
+                    itemid: lists[0].items[0]['_id']
+                })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(true);
                     done();
@@ -428,7 +442,7 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelist')
                 .set('Authorization', token)
-                .send({ listid: 'jlksjlfkjslf'})
+                .send({ listid: 'jlksjlfkjslf' })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
                     expect(res.body.msg).to.equal('List not found');
@@ -441,10 +455,12 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelist')
                 .set('Authorization', token)
-                .send({ listid: null})
+                .send({ listid: null })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('Listid has wrong type or is empty');
+                    expect(res.body.msg).to.equal(
+                        'Listid has wrong type or is empty'
+                    );
                     done();
                 });
         });
@@ -454,10 +470,12 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelist')
                 .set('Authorization', token)
-                .send({ listid: ''})
+                .send({ listid: '' })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(false);
-                    expect(res.body.msg).to.equal('Listid has wrong type or is empty');
+                    expect(res.body.msg).to.equal(
+                        'Listid has wrong type or is empty'
+                    );
                     done();
                 });
         });
@@ -467,7 +485,7 @@ describe('api', () => {
                 .request(server)
                 .post('/deletelist')
                 .set('Authorization', token)
-                .send({ listid: lists[0]['_id']})
+                .send({ listid: lists[0]['_id'] })
                 .end((err, res) => {
                     expect(res.body.success).to.equal(true);
                     done();
@@ -475,22 +493,11 @@ describe('api', () => {
         });
     });
 
-    describe('delete test user', () => {
-        it('should delete test user', done => {
-            chai.request(server).get('/removetestuser').end((err, res) => {
-                expect(res.body.success).to.equal(true);
-                done();
-            });
-        });
-
-        it('should not delete test user', done => {
-            chai.request(server).get('/removetestuser').end((err, res) => {
-                expect(res.body.success).to.equal(false);
-                expect(res.body.msg).to.equal('User not found');
-                done();
-            });
-        });
+    after(async () => {
+        try {
+            await testUserController.removeByEmail('test@test.de');
+        } catch (removeErr) {
+            throw new Error('Test user could not be deleted!');
+        }
     });
-
-
 });

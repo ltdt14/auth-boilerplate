@@ -182,17 +182,6 @@ router.post(
     '/deletelistitem',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        /*
-        userController.removeListItemById(
-            req.user,
-            req.body.listid,
-            req.body.itemid,
-            err => {
-                if (err) res.send({ success: false, msg: err.message });
-                else res.send({ success: true });
-            }
-        );
-        */
         if (typeof req.body.listid !== 'string' || req.body.listid === '')
             res.send({
                 success: false,

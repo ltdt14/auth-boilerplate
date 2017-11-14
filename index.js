@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const logger = require('./components/logger');
+
 const app = express();
 
-//load .env vars
+// load .env vars
 require('./config/load_env_vars');
 
 // check if needed env vars are available
@@ -29,15 +30,16 @@ app.use(passport.session());
 if(process.env.NODE_ENV === 'production'){
     app.use(async (req, res, next) => {
         try{
-            await logger.createLog(req.path, `${req.method} from ${req.headers['x-real-ip']} via origin ${req.headers['origin']} with ${req.headers['user-agent']} to ${req.url}`);
-        } catch (loggerError) {}
+            await logger.createLog(req.path, `${req.method} from ${req.headers['x-real-ip']} via origin ${req.headers.origin} with ${req.headers['user-agent']} to ${req.url}`);
+        } catch (loggerError) {
+            return;
+        }
         next();
     });
 }
 
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/lists'));
-app.use('/', require('./routes/user'));
 
 // listen
 app.listen(port, () => {
