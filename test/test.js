@@ -31,7 +31,6 @@ describe('api', () => {
                 .post('/signup')
                 .send({ email: 'test@test.de', password: 'password' })
                 .end((err, res) => {
-                    console.log(res);
                     expect(res.body.success).to.equal(false);
                     expect(res.body.msg).to.equal('Email already exists.');
                     done();
