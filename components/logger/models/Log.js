@@ -6,4 +6,5 @@ const logSchema = mongoose.mongoconn.Schema({
     time: Date
 });
 
-module.exports = mongoose.mongoconn.model('AuthLogs', logSchema);
+if (!process.env.LOG_COLLECTION_NAME) throw new Error('You need to load an .env file with LOG_COLLECTION_NAME defined');
+module.exports = mongoose.mongoconn.model(process.env.LOG_COLLECTION_NAME, logSchema);
